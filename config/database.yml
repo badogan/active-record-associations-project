@@ -1,0 +1,7 @@
+development:
+  adapter: 'sqlite3'
+  database: 'db/library_dev.db'
+
+test:
+  adapter: 'sqlite3'
+  database: 'db/library_test.db'

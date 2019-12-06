@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Active+Record+Domain+Modeling+Project">Active Record Domain Modeling Project</h1>
+
+<p>In this assignment, you&#39;ll build out your own project, using Active Record to enact database relationships, from scratch.</p>
+
+<h2 id="label-Objectives">Objectives</h2>
+<ol><li>
+<p>Try out setting up your own environment from scratch–using past labs as a guide.</p>
+</li><li>
+<p>Build out a complex set of associations, including the belongs to/has many, and many-to-many relationship.</p>
+</li><li>
+<p>Use the code you wrote! Build a simple command line interface class so that a user can interact with your database.</p>
+</li></ol>
+
+<h2 id="label-Guidelines">Guidelines</h2>
+
+<p>In this app, you&#39;ll be working with a library domain model. You will have the following models:</p>
+<ul><li>
+<p>Category (think fiction, non-fiction, biography, science, etc.). A category has a:</p>
+</li><li>
+<p>name</p>
+</li><li>
+<p>has many books</p>
+</li><li>
+<p>Book. A book has a:</p>
+</li><li>
+<p>title</p>
+</li><li>
+<p>belongs to a category</p>
+</li><li>
+<p>belongs to an author</p>
+</li><li>
+<p>Author. An author has a:</p>
+</li><li>
+<p>name</p>
+</li><li>
+<p>has many books</p>
+</li><li>
+<p>User. A user has a:</p>
+</li><li>
+<p>name</p>
+</li></ul>
+
+<p>The relationship between books and users in a little complex. A user can have many books and a book can belong to many users. At what point in time should a book be added to a user&#39;s collection of books? When a user checks that book out of the library. You will need a join table to implement this many-to-many relationship.</p>
+
+<p>You also need to keep track of the books a user has previously checked out, vs. the books a user has currently checked out. So, each “checked out book” should know the its due date, should know whether or not it was returned and should therefore know if that book is overdue for that user.</p>
+
+<h2 id="label-Instructions">Instructions</h2>
+
+<h3 id="label-Environment+Set+Up">Environment Set Up</h3>
+<ul><li>
+<p>Start out by setting up your environment. Your file structure should look like this:</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby">├── Gemfile
+├── Rakefile
+├── app
+│   └── models
+│       ├── category.rb
+│       ├── author.rb
+│       └── book.rb
+        └── user.rb
+        └── &lt;your join table model--name it whatever makes sense to you&gt;.rb
+├── config
+│   └── environment.rb
+├── db
+│   └── migrate
+│       ├── 001_create_categories.rb
+│       ...
+├── lib
+│   └── support
+│       ├── connection_adapter.rb
+│       └── db_registry.rb
+</code></pre>
+
+<p>Use <a href="https://github.com/learn-co-curriculum/activerecord-costume-store-todo">this lab</a> to guide you through your environment set up.</p>
+
+<p>Make sure you have a Gemfile that includes the following gems:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_source'>source</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://rubygems.org</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rspec</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>activerecord</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sqlite3</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rake</span><span class='tstring_end'>&quot;</span></span>
+</code></pre>
+
+<p>A Rakefile that includes the following:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>active_record</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:environment</span> <span class='kw'>do</span>
+  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ACTIVE_RECORD_ENV</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>development</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_require_relative'>require_relative</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./config/environment</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_include'>include</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Tasks</span>
+<span class='const'>DatabaseTasks</span><span class='period'>.</span><span class='id identifier rubyid_db_dir'>db_dir</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>db</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>DatabaseTasks</span><span class='period'>.</span><span class='id identifier rubyid_migrations_paths'>migrations_paths</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>db/migrate</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_seed_loader'>seed_loader</span> <span class='op'>=</span> <span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_load_seed'>load_seed</span>
+    <span class='id identifier rubyid_load'>load</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Tasks</span><span class='op'>::</span><span class='const'>DatabaseTasks</span><span class='period'>.</span><span class='id identifier rubyid_db_dir'>db_dir</span><span class='embexpr_end'>}</span><span class='tstring_content'>/seeds.rb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+<span class='const'>DatabaseTasks</span><span class='period'>.</span><span class='id identifier rubyid_seed_loader'>seed_loader</span> <span class='op'>=</span> <span class='id identifier rubyid_seed_loader'>seed_loader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='id identifier rubyid_load'>load</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>active_record/railties/databases.rake</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:console</span> <span class='op'>=&gt;</span> <span class='symbol'>:environment</span> <span class='kw'>do</span>
+  <span class='const'>Pry</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Look to the costume store lab for your to set up your <code>config/environment.rb</code> file and the files in your <code>lib</code> directory that handle establishing the connection to the database.</p>
+
+<h3 id="label-Database+Design">Database Design</h3>
+
+<p>Once your environment is set up, go ahead and design your database. What do you tables need to look like? What foriegn keys need to be included in which tables? Do you need a join table? What columns should it have?</p>
+
+<p>Create and run your migrations.</p>
+
+<h3 id="label-Model+Design">Model Design</h3>
+
+<p>Once you have migrated your database, define you models. Remember to inherit them from <code>ActiveRecord::Base</code>. Use the appropriate macros to finish building your your associations.</p>
+
+<h3 id="label-Model+Methods">Model Methods</h3>
+
+<p>Write a <code>User</code> instance method that allows a user to “check out” a book.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_the_doctor'>the_doctor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="User.html" title="User (class)">User</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The Doctor</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_book'>book</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Book.html" title="Book (class)">Book</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Tardis Manual</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_the_doctor'>the_doctor</span><span class='period'>.</span><span class='id identifier rubyid_check_out_book'>check_out_book</span><span class='lparen'>(</span><span class='id identifier rubyid_book'>book</span><span class='comma'>,</span> <span class='label'>due_date:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>September 1st, 2016</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_the_doctor'>the_doctor</span><span class='period'>.</span><span class='id identifier rubyid_books'>books</span>
+<span class='comment'># =&gt; [#&lt;Book:0x007f8973912 @title=&quot;Tardis Manual&quot;&gt;]
+</span>
+<span class='id identifier rubyid_book'>book</span><span class='period'>.</span><span class='id identifier rubyid_users'>users</span>
+<span class='comment'># =&gt; [#&lt;User:8x007f867390fe38 @name=&quot;The Doctor&quot;&gt;]
+</span></code></pre>
+
+<p>When a user check&#39;s out a book, it should create a new UserBook record (or Checkout record or whatever you want to call you join table/model). That new UserBook record should have a attribute (and therefore table column) of <code>returned?</code> which should default to <code>false</code></p>
+
+<p>So, after running the code above, I should be able to run the following code and see the following return values:</p>
+
+<pre class="code ruby"><code class="ruby">UserBook.where(user: the_doctor, returned: false)
+# =&gt; [#&lt;User:0x007f867390fe38 
+        @user=#&lt;User:0x007290867390fe38 @name=&quot;The Doctor&quot;&gt;,
+        @book=#&lt;Book:7x007f8673999 @title=&quot;Tardis Manual&quot;&gt;,
+        @returned=false&gt;
+      ]
+</code></pre>
+
+<p>Write <code>User</code> instance method that allows a user to “return” a book.</p>
+
+<pre class="code ruby"><code class="ruby">the_doctor.return_book(book)
+the_doctor.books
+# =&gt; [#&lt;Book:0x007f8973912 @title=&quot;Tardis Manual&quot;&gt;]
+
+UserBook.where(user: the_doctor, returned: false)
+# =&gt; []
+
+UserBook.where(user: the_doctor, returned: true)
+# =&gt; [#&lt;User:0x007f867390fe38 
+        @user=#&lt;User:0x007290867390fe38 @name=&quot;The Doctor&quot;&gt;,
+        @book=#&lt;Book:7x007f8673999 @title=&quot;Tardis Manual&quot;&gt;,
+        @returned=false&gt;
+      ]
+</code></pre>
+
+<h3 id="label-Play+around+with+your+code">Play around with your code</h3>
+
+<p>Run the console task, <code>rake console</code>, and play around with the code you wrote to make sure your associations are working properly. Make and save an instance of category, book, author and use. Add the book to your category&#39;s collection of books, add the book to the author&#39;s collection of books. Have the user “check out” the book. Have the user “return” the book.</p>
+
+<h3 id="label-Command+Line+Interface">Command Line Interface</h3>
+
+<p>If you have time, build out a very simple CLI that does the following:</p>
+<ul><li>
+<p>Greet the user</p>
+</li><li>
+<p>Ask the user for their name so you can find that user in your database</p>
+</li><li>
+<p>Show the user a list of categories and ask them to choose a category whose books they want to see</p>
+</li><li>
+<p>Show the user all the books in the chosen category</p>
+</li><li>
+<p>Allow the user to choose a book to check out</p>
+</li><li>
+<p>Check out that book for them</p>
+</li><li>
+<p>Prompt and allow the user to return the book</p>
+</li></ul>
+
+<p>*This functionality will require you to see you database with a few dummy categories, books and users. Put this code in your <code>db/seeds.rb</code> file and run <code>rake db:seed</code>.</p>
+
+<h2 id="label-Implementation">Implementation</h2>
+
+<p>This section provides (key) implementation details for the implemented solution</p>
+<ol><li>
+<p>Bullet 1</p>
+</li><li>
+<p>Bullet 2</p>
+</li><li>
+<p>Bullet 3</p>
+</li></ol>
+
+<h3 id="label-Approach">Approach</h3>
+
+<h3 id="label-Use+Cases">Use Cases</h3>
+
+<h3 id="label-Jira+References">Jira References</h3>
+
+<h3 id="label-rspec+Details">rspec Details</h3>
+
+<h3 id="label-Known+Bugs">Known Bugs</h3>
+
+<h3 id="label-Changelog">Changelog</h3>
+
+<h4 id="label-How+does+this+show-3F">How does this show?</h4>
+
+<h5 id="label-How+does+this+show+2+-3F">How does this show 2 ?</h5>
+</div></div>
+
+      <div id="footer">
+  Generated on Fri Dec  6 07:02:02 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.1).
+</div>
+
+    </div>
+  </body>
+</html>

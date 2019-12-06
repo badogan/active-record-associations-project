@@ -174,6 +174,42 @@ If you have time, build out a very simple CLI that does the following:
 
 *This functionality will require you to see you database with a few dummy categories, books and users. Put this code in your `db/seeds.rb` file and run `rake db:seed`.
 
+## Implementation
+
+This section provides (key) implementation details for the solution.
+
+## Model Design
+
+Each book has a category and an author. categories and authors are "stand-alone".
+A book has a category_id and an author_id so that category and author attributes for the book can be retreived.
+
+Each checkout has a user and a book. users and authors are "stand-alone" (from every checkout perspective).
+A checkout has a user_id and a book_id from which -for a particular checkout the attrobutes for the user and book can be retreived.
+
+Book class provides 2 instance methods:
+
+### Jira References
+
+N/A for the implementation
+
+### rspec Details
+
+/spec/tests-part-2.rb provides testing for the basic model operations and book class methods. Pleasee see Known Bugs for details on testing details. 
+
+### Known Bugs and Issues
+
+1. The tests do not clean up the test user, test book, test category, test author.
+However, it clears any checkouts associated with the testing process. So, there is no checkout left after tests.
+Please note that test user, book, author, category are deleted and created prior to starting tests anyway. So, there is one test user, test book, test category and test author "left" in the corresponding tables.
+2. Extreme care should be taken when updating rspec helper as it has the potential to overwrite db after every test and/or before every test cycle. Such destructive settings are disabled.
+
+### Changelog (commit history)
+
+#### 06Dec19-0719-GMT
+Initial commit. Includes scaffolding rpsec, yarn, models and basic instance methods.
+
+#### github reference
+
 
 
 

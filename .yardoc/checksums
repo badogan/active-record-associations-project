@@ -1,0 +1,9 @@
+app/models/cli.rb 651f81c92a9882a8fb854fedeec165a9b9b3bdd9
+app/models/book.rb d58bd7f4c12835a9701af1ced576c4f88ceeba97
+app/models/user.rb 4ed99899b18e250855ade37a0211ebe36c6d6cc3
+app/models/author.rb e466528bdce1c338a9f9a279e6e958685d1bc5a6
+app/models/my_test.rb 184c237f1bc2b51139b9eba139e1a3ce930802b6
+app/models/category.rb 4c42cad7fb207f71a26a7f09c752303309667ba4
+app/models/checkout.rb 2a05d72ee5b6288050b2928ff6df5053cd547d14
+lib/support/db_registry.rb 18ac286e62a2af7ca1b854dafa375e48239e0a0e
+lib/support/connection_adapter.rb 48f54f09ac1cf6b2db9510b994e07ff28e6aca1a

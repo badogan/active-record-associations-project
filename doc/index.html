@@ -253,34 +253,44 @@ UserBook.where(user: the_doctor, returned: true)
 
 <h2 id="label-Implementation">Implementation</h2>
 
-<p>This section provides (key) implementation details for the implemented solution</p>
-<ol><li>
-<p>Bullet 1</p>
-</li><li>
-<p>Bullet 2</p>
-</li><li>
-<p>Bullet 3</p>
-</li></ol>
+<p>This section provides (key) implementation details for the solution.</p>
 
-<h3 id="label-Approach">Approach</h3>
+<h3 id="label-Model+Design">Model Design</h3>
 
-<h3 id="label-Use+Cases">Use Cases</h3>
+<p>Each book has a category and an author. categories and authors are “stand-alone”. A book has a category_id and an author_id so that category and author attributes for the book can be retreived.</p>
+
+<p>Each checkout has a user and a book. users and authors are “stand-alone” (from every checkout perspective). A checkout has a user_id and a book_id from which -for a particular checkout the attrobutes for the user and book can be retreived.</p>
+
+<p>Book class provides 2 instance methods:</p>
 
 <h3 id="label-Jira+References">Jira References</h3>
 
+<p>N/A for the implementation</p>
+
 <h3 id="label-rspec+Details">rspec Details</h3>
 
-<h3 id="label-Known+Bugs">Known Bugs</h3>
+<p>/spec/tests-part-2.rb provides testing for the basic model operations and book class methods. Pleasee see Known Bugs for details on testing details.</p>
 
-<h3 id="label-Changelog">Changelog</h3>
+<h3 id="label-Known+Bugs+and+Issues">Known Bugs and Issues</h3>
+<ol><li>
+<p>The tests do not clean up the test user, test book, test category, test author. However, it clears any checkouts associated with the testing process. So, there is no checkout left after tests. Please note that test user, book, author, category are deleted and created prior to starting tests anyway. So, there is one test user, test book, test category and test author “left” in the corresponding tables.</p>
+</li><li>
+<p>Extreme care should be taken when updating rspec helper as it has the potential to overwrite db after every test and/or before every test cycle. Such destructive settings are disabled.</p>
+</li></ol>
 
-<h4 id="label-How+does+this+show-3F">How does this show?</h4>
+<h3 id="label-Changelog+-28commit+history-29">Changelog (commit history)</h3>
 
-<h5 id="label-How+does+this+show+2+-3F">How does this show 2 ?</h5>
+<h4 id="label-06Dec19-0719-GMT">06Dec19-0719-GMT</h4>
+
+<p>Initial commit. Includes scaffolding rpsec, yarn, models and basic instance methods.</p>
+
+<h4 id="label-github+reference">github reference</h4>
+
+<p>git@github.com:badogan/active-record-associations-project.git</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri Dec  6 07:02:02 2019 by
+  Generated on Fri Dec  6 07:26:41 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

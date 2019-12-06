@@ -178,7 +178,7 @@ If you have time, build out a very simple CLI that does the following:
 
 This section provides (key) implementation details for the solution.
 
-## Model Design
+### Model Design
 
 Each book has a category and an author. categories and authors are "stand-alone".
 A book has a category_id and an author_id so that category and author attributes for the book can be retreived.
@@ -209,9 +209,4 @@ Please note that test user, book, author, category are deleted and created prior
 Initial commit. Includes scaffolding rpsec, yarn, models and basic instance methods.
 
 #### github reference
-
-
-
-
-
-
+git@github.com:badogan/active-record-associations-project.git
